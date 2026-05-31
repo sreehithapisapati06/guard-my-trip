@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guard My Trip | Smart Travel Safety & Planning</title>
+    <style>
+        /* --- Modern CSS Reset & Variables --- */
+        :root {
+            --primary: #1e3a8a;       /* Deep Navy */
+            --secondary: #0284c7;     /* Safety Blue */
+            --accent: #dc2626;        /* Emergency Red */
+            --dark: #0f172a;          /* Charcoal text */
+            --light: #f8fafc;         /* Light background */
+            --white: #ffffff;
+            --gray: #64748b;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* --- Global Layout Containers --- */
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        /* --- Header & Navigation --- */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 0;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--gray);
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--primary);
+        }
+
+        .cta-btn {
+            background-color: var(--primary);
+            color: var(--white) !important;
+            padding: 0.6rem 1.2rem;
+            border-radius: 6px;
+        }
+
+        .cta-btn:hover {
+            background-color: var(--secondary);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
+            color: var(--white);
+            padding: 5rem 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+            color: #cbd5e1;
+        }
+
+        /* --- Emergency Contact Section --- */
+        .emergency-section {
+            padding: 4rem 0;
+            background-color: var(--white);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .emergency-box {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: var(--light);
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border-top: 4px solid var(--accent);
+        }
+
+        .search-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-group label {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .search-group select {
+            padding: 0.8rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 1rem;
+            background-color: var(--white);
+            outline: none;
+        }
+
+        .search-group select:focus {
+            border-color: var(--secondary);
+        }
+
+        /* Results Display Grid */
+        .emergency-results {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+            display: none; /* Hidden until a country is selected */
+        }
+
+        .card {
+            background: var(--white);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid #e2e8f0;
+        }
+
+        .card-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--gray);
+            margin-bottom: 0.25rem;
+        }
+
+        .card-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            text-decoration: none;
+            display: block;
+        }
+
+        .card-number:hover {
+            text-decoration: underline;
+        }
+
+        /* --- Quick Safety Pillars Section --- */
+        .pillars-section {
+            padding: 4rem 0;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .pillar-card {
+            background-color: var(--white);
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: var(--transition);
+        }
+
+        .pillar-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .pillar-card h3 {
+            margin-bottom: 0.75rem;
+            color: var(--primary);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--dark);
+            color: #94a3b8;
+            padding: 2rem 0;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        /* --- Responsive Breakpoints --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            .nav-links { display: none; } /* Simplicity for skeleton code */
+            .emergency-results {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">Guard My Trip</a>
+            <ul class="nav-links">
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#">Risk Matrix</a></li>
+                <li><a href="#">Checklists</a></li>
+                <li><a href="#" class="cta-btn">Get Started</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Travel Smart. Travel Safely.</h1>
+            <p>Data-driven risk assessment framework helping you make rational, prepared decisions before you step out of the door.</p>
+        </div>
+    </section>
+
+    <section class="emergency-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Emergency Responders Lookup</h2>
+                <p>Instant localized critical numbers valid even during cellular data disruptions.</p>
+            </div>
+
+            <div class="emergency-box">
+                <div class="search-group">
+                    <label for="countrySelect">Select Destination Country</label>
+                    <select id="countrySelect">
+                        <option value="" disabled selected>-- Choose a country --</option>
+                        <option value="us">United States</option>
+                        <option value="uk">United Kingdom</option>
+                        <option value="jp">Japan</option>
+                        <option value="fr">France</option>
+                        <option value="au">Australia</option>
+                    </select>
+                </div>
+
+                <div class="emergency-results" id="emergencyResults">
+                    <div class="card">
+                        <div class="card-label">Police</div>
+                        <a href="#" class="card-number" id="numPolice">-</a>
+                    </div>
+                    <div class="card">
+                        <div class="card-label">Ambulance</div>
+                        <a href="#" class="card-number" id="numAmbulance">-</a>
+                    </div>
+                    <div class="card">
+                        <div class="card-label">Fire</div>
+                        <a href="#" class="card-number" id="numFire">-</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pillars-section">
+        <div class="container">
+            <div class="grid-3">
+                <div class="pillar-card">
+                    <h3> Contextual Risk Index</h3>
+                    <p>We dissect state department updates into specific actionable indexes for petty theft, medical infrastructure reliability, and transit safety metrics.</p>
+                </div>
+                <div class="pillar-card">
+                    <h3> Milestone Checklists</h3>
+                    <p>Structured timelines starting from 30 days before departure down to immediate procedures if you misplace your travel documents on the transit floor.</p>
+                </div>
+                <div class="pillar-card">
+                    <h3> Decentralized Security</h3>
+                    <p>Techniques to securely structure physical currency backups and set up offline emergency documentation access profiles without vulnerabilities.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Guard My Trip. Mitigating travel vulnerabilities through logic and planning.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Database of local emergency services
+        const emergencyDb = {
+            us: { police: "911", ambulance: "911", fire: "911" },
+            uk: { police: "999", ambulance: "999", fire: "999" },
+            jp: { police: "110", ambulance: "119", fire: "119" },
+            fr: { police: "17",  ambulance: "15",  fire: "18" },
+            au: { police: "000", ambulance: "000", fire: "000" }
+        };
+
+        const countrySelect = document.getElementById('countrySelect');
+        const emergencyResults = document.getElementById('emergencyResults');
+        const numPolice = document.getElementById('numPolice');
+        const numAmbulance = document.getElementById('numAmbulance');
+        const numFire = document.getElementById('numFire');
+
+        // Detect selection updates and alter layout
+        countrySelect.addEventListener('change', function() {
+            const selectedCountry = this.value;
+            const data = emergencyDb[selectedCountry];
+
+            if (data) {
+                // Assign UI texts and set direct click-to-call 'tel:' links
+                numPolice.textContent = data.police;
+                numPolice.href = `tel:${data.police}`;
+
+                numAmbulance.textContent = data.ambulance;
+                numAmbulance.href = `tel:${data.ambulance}`;
+
+                numFire.textContent = data.fire;
+                numFire.href = `tel:${data.fire}`;
+
+                // Display UI module cleanly using CSS Grid architecture properties
+                emergencyResults.style.display = 'grid';
+            }
+        });
+    </script>
+</body>
+</html>
