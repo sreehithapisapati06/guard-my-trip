@@ -564,7 +564,7 @@ You help travelers stay safe by providing:
 Keep responses concise (3-5 short paragraphs max), practical, and friendly. Use bullet points for lists. Always end with one actionable tip.`;
 
       const res = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -596,4 +596,3 @@ Keep responses concise (3-5 short paragraphs max), practical, and friendly. Use 
 
 </body>
 </html>
-
